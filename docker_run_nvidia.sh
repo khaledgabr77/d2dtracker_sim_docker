@@ -98,7 +98,7 @@ echo "Starting Container: ${CONTAINER_NAME} with REPO: $DOCKER_REPO"
 CMD="export DEV_DIR=/home/user/shared_volume && \
     export PX4_DIR=\$DEV_DIR/PX4-Autopilot &&\
         source /home/user/shared_volume/ros2_ws/install/setup.bash && \
-         && /bin/bash"
+         /bin/bash"
 
 if [ "$2" != "" ]; then
     CMD=$2
