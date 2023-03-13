@@ -122,6 +122,13 @@ RUN bash -c "source /opt/ros/humble/setup.bash && cd /home/user/ros2_ws && expor
 USER root
 RUN echo "source /home/user/ros2_ws/install/setup.bash" >> /home/user/.bashrc
 
+#
+# Install rqt_tf
+#
+RUN apt install -y ros-humble-rqt-tf-* \
+	&& apt-get clean autoclean \
+	&& rm -rf /var/lib/apt/lists/{apt,dpkg,cache,log} /tmp/* /var/tmp/*
+
 
 # create and start as LOCAL_USER_ID
 COPY scripts/entrypoint.sh /usr/local/bin/entrypoint.sh
