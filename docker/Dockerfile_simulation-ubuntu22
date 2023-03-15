@@ -125,7 +125,7 @@ RUN echo "source /home/user/ros2_ws/install/setup.bash" >> /home/user/.bashrc
 #
 # Install rqt_tf
 #
-RUN apt install -y ros-humble-rqt-tf-* \
+RUN apt update &&  apt install -y ros-humble-rqt-tf-* \
 	&& apt-get clean autoclean \
 	&& rm -rf /var/lib/apt/lists/{apt,dpkg,cache,log} /tmp/* /var/tmp/*
 
