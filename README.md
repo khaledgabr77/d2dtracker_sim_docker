@@ -35,8 +35,5 @@ The Gazebo version in the provided Docker image is Gazebo `garden`.
 * You can find the `ros2_ws` and the `PX4-Autopilot` inside the shared volume. The path of shared volume inside the container is `/home/user/shared_volume`. The path of the shared volume outside the container is `$HOME/d2dtracker_shared_volume`
 
 # Run Simulation
-* To run the simulation execute
-    ```bash
-    ros2 launch d2dtracker_sim run_sim.launch`
-    ```
+* Follow the instructions of the [d2dtracker_sim](https://github.com/mzahana/d2dtracker_sim#run) package to run the simulation.
 * You can re-enter the docker container by executing the `docker_run_nvidia.sh` in a new terminal.
