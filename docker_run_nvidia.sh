@@ -111,7 +111,7 @@ if [ "$(docker ps -aq -f name=${CONTAINER_NAME})" ]; then
         docker start ${CONTAINER_NAME}
     fi
 
-    docker exec --user user -it ${CONTAINER_NAME} bash -c "${CMD}"
+    docker exec --user user -it ${CONTAINER_NAME} env TERM=xterm-256color bash -c "${CMD}"
 
 else
 
