@@ -85,25 +85,28 @@ fi
 
 echo "Shared WORKSPACE_DIR: $WORKSPACE_DIR";
 
-#not-recommended - T.T please fix me, check this: http://wiki.ros.org/docker/Tutorials/GUI
+#not-recommended - check this: http://wiki.ros.org/docker/Tutorials/GUI
 xhost +local:root
  
 echo "Starting Container: ${CONTAINER_NAME} with REPO: $DOCKER_REPO"
 
-# CMD="export GIT_TOKEN=${GIT_TOKEN} && export GIT_USER=${GIT_USER} && \
-#         export CATKIN_WS=$CATKIN_WS && \
-#         export PX4_ROOT=$PX4_ROOT && \
-#         export OSQP_SRC=/root/shared_volume/src && /bin/bash"
-
-CMD="export DEV_DIR=/home/user/shared_volume && \
+CMD=""
+if [ -z "$GIT_TOKEN" ] && [ -z "$GIT_USER" ]; then
+  CMD="export GIT_USER=$GIT_USER && GIT_TOKEN=$GIT_TOKEN && \
+    export DEV_DIR=/home/user/shared_volume && \
     export PX4_DIR=\$DEV_DIR/PX4-Autopilot &&\
         source /home/user/shared_volume/ros2_ws/install/setup.bash && \
          /bin/bash"
-
-if [ "$2" != "" ]; then
-    CMD=$2
+else
+  CMD="export DEV_DIR=/home/user/shared_volume && \
+    export PX4_DIR=\$DEV_DIR/PX4-Autopilot &&\
+        source /home/user/shared_volume/ros2_ws/install/setup.bash && \
+         /bin/bash"
 fi
-echo $CMD
+
+
+# echo $CMD
+
 if [ "$(docker ps -aq -f name=${CONTAINER_NAME})" ]; then
     if [ "$(docker ps -aq -f status=exited -f name=${CONTAINER_NAME})" ]; then
         # cleanup
@@ -135,7 +138,9 @@ else
     #     cd \${HOME} && source .bashrc && \
     #     /bin/bash"
 
-    CMD="export DEV_DIR=/home/user/shared_volume &&\
+    if [ -z "$GIT_TOKEN" ] && [ -z "$GIT_USER" ]; then
+        CMD="export GIT_USER=$GIT_USER && GIT_TOKEN=$GIT_TOKEN && \
+        export DEV_DIR=/home/user/shared_volume &&\
         export PX4_DIR=\$DEV_DIR/PX4-Autopilot &&\
         if [ ! -d "/home/user/shared_volume/ros2_ws" ]; then
             mkdir -p /home/user/shared_volume/ros2_ws/src
@@ -148,6 +153,21 @@ else
         ./install.sh && cd \$HOME &&\
         source /home/user/shared_volume/ros2_ws/install/setup.bash &&\
         /bin/bash"
+    else
+        CMD="export DEV_DIR=/home/user/shared_volume &&\
+        export PX4_DIR=\$DEV_DIR/PX4-Autopilot &&\
+        if [ ! -d "/home/user/shared_volume/ros2_ws" ]; then
+            mkdir -p /home/user/shared_volume/ros2_ws/src
+        fi &&\
+        if [ ! -d "/home/user/shared_volume/ros2_ws/src/d2dtracker_sim" ]; then
+            cd /home/user/shared_volume/ros2_ws/src
+            git clone https://github.com/mzahana/d2dtracker_sim.git
+        fi &&\
+        cd /home/user/shared_volume/ros2_ws/src/d2dtracker_sim &&\
+        ./install.sh && cd \$HOME &&\
+        source /home/user/shared_volume/ros2_ws/install/setup.bash &&\
+        /bin/bash"
+    fi
 
     echo "Running container ${CONTAINER_NAME}..."
     #-v /dev/video0:/dev/video0 \
