@@ -92,13 +92,13 @@ echo "Starting Container: ${CONTAINER_NAME} with REPO: $DOCKER_REPO"
 
 CMD=""
 if [ -z "$GIT_TOKEN" ] && [ -z "$GIT_USER" ]; then
-  CMD="export GIT_USER=$GIT_USER && GIT_TOKEN=$GIT_TOKEN && \
-    export DEV_DIR=/home/user/shared_volume && \
+    CMD="export DEV_DIR=/home/user/shared_volume && \
     export PX4_DIR=\$DEV_DIR/PX4-Autopilot &&\
         source /home/user/shared_volume/ros2_ws/install/setup.bash && \
          /bin/bash"
 else
-  CMD="export DEV_DIR=/home/user/shared_volume && \
+    CMD="export GIT_USER=$GIT_USER && GIT_TOKEN=$GIT_TOKEN && \
+    export DEV_DIR=/home/user/shared_volume && \
     export PX4_DIR=\$DEV_DIR/PX4-Autopilot &&\
         source /home/user/shared_volume/ros2_ws/install/setup.bash && \
          /bin/bash"
@@ -139,8 +139,7 @@ else
     #     /bin/bash"
 
     if [ -z "$GIT_TOKEN" ] && [ -z "$GIT_USER" ]; then
-        CMD="export GIT_USER=$GIT_USER && GIT_TOKEN=$GIT_TOKEN && \
-        export DEV_DIR=/home/user/shared_volume &&\
+        CMD="export DEV_DIR=/home/user/shared_volume &&\
         export PX4_DIR=\$DEV_DIR/PX4-Autopilot &&\
         if [ ! -d "/home/user/shared_volume/ros2_ws" ]; then
             mkdir -p /home/user/shared_volume/ros2_ws/src
@@ -154,7 +153,8 @@ else
         source /home/user/shared_volume/ros2_ws/install/setup.bash &&\
         /bin/bash"
     else
-        CMD="export DEV_DIR=/home/user/shared_volume &&\
+        CMD="export GIT_USER=$GIT_USER && GIT_TOKEN=$GIT_TOKEN && \
+        export DEV_DIR=/home/user/shared_volume &&\
         export PX4_DIR=\$DEV_DIR/PX4-Autopilot &&\
         if [ ! -d "/home/user/shared_volume/ros2_ws" ]; then
             mkdir -p /home/user/shared_volume/ros2_ws/src
