@@ -97,7 +97,7 @@ if [ -z "$GIT_TOKEN" ] && [ -z "$GIT_USER" ]; then
         source /home/user/shared_volume/ros2_ws/install/setup.bash && \
          /bin/bash"
 else
-    CMD="export GIT_USER=$GIT_USER && GIT_TOKEN=$GIT_TOKEN && \
+    CMD="export GIT_USER=$GIT_USER && export GIT_TOKEN=$GIT_TOKEN && \
     export DEV_DIR=/home/user/shared_volume && \
     export PX4_DIR=\$DEV_DIR/PX4-Autopilot &&\
         source /home/user/shared_volume/ros2_ws/install/setup.bash && \
@@ -153,7 +153,7 @@ else
         source /home/user/shared_volume/ros2_ws/install/setup.bash &&\
         /bin/bash"
     else
-        CMD="export GIT_USER=$GIT_USER && GIT_TOKEN=$GIT_TOKEN && \
+        CMD="export GIT_USER=$GIT_USER && export GIT_TOKEN=$GIT_TOKEN && \
         export DEV_DIR=/home/user/shared_volume &&\
         export PX4_DIR=\$DEV_DIR/PX4-Autopilot &&\
         if [ ! -d "/home/user/shared_volume/ros2_ws" ]; then
