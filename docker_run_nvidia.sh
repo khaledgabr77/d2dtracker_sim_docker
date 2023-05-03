@@ -90,20 +90,17 @@ xhost +local:root
  
 echo "Starting Container: ${CONTAINER_NAME} with REPO: $DOCKER_REPO"
 
-CMD=""
-if [ -z "$GIT_TOKEN" ] && [ -z "$GIT_USER" ]; then
-    CMD="export DEV_DIR=/home/user/shared_volume && \
+CMD="export DEV_DIR=/home/user/shared_volume && \
     export PX4_DIR=\$DEV_DIR/PX4-Autopilot &&\
         source /home/user/shared_volume/ros2_ws/install/setup.bash && \
          /bin/bash"
-else
-    CMD="export GIT_USER=$GIT_USER && export GIT_TOKEN=$GIT_TOKEN && \
-    export DEV_DIR=/home/user/shared_volume && \
-    export PX4_DIR=\$DEV_DIR/PX4-Autopilot &&\
-        source /home/user/shared_volume/ros2_ws/install/setup.bash && \
-         /bin/bash"
+if [[ -n "$GIT_TOKEN" ]] && [[ -n "$GIT_USER" ]]; then
+    CMD="export GIT_USER=$GIT_USER && export GIT_TOKEN=$GIT_TOKEN && $CMD"
 fi
 
+if [[ -n "$SUDO_PASSWORD" ]]; then
+    CMD="export SUDO_PASSWORD=$SUDO_PASSWORD && $CMD"
+fi
 
 # echo $CMD
 
@@ -138,8 +135,7 @@ else
     #     cd \${HOME} && source .bashrc && \
     #     /bin/bash"
 
-    if [ -z "$GIT_TOKEN" ] && [ -z "$GIT_USER" ]; then
-        CMD="export DEV_DIR=/home/user/shared_volume &&\
+    CMD="export DEV_DIR=/home/user/shared_volume &&\
         export PX4_DIR=\$DEV_DIR/PX4-Autopilot &&\
         if [ ! -d "/home/user/shared_volume/ros2_ws" ]; then
             mkdir -p /home/user/shared_volume/ros2_ws/src
@@ -152,21 +148,13 @@ else
         ./install.sh && cd \$HOME &&\
         source /home/user/shared_volume/ros2_ws/install/setup.bash &&\
         /bin/bash"
-    else
-        CMD="export GIT_USER=$GIT_USER && export GIT_TOKEN=$GIT_TOKEN && \
-        export DEV_DIR=/home/user/shared_volume &&\
-        export PX4_DIR=\$DEV_DIR/PX4-Autopilot &&\
-        if [ ! -d "/home/user/shared_volume/ros2_ws" ]; then
-            mkdir -p /home/user/shared_volume/ros2_ws/src
-        fi &&\
-        if [ ! -d "/home/user/shared_volume/ros2_ws/src/d2dtracker_sim" ]; then
-            cd /home/user/shared_volume/ros2_ws/src
-            git clone https://github.com/mzahana/d2dtracker_sim.git
-        fi &&\
-        cd /home/user/shared_volume/ros2_ws/src/d2dtracker_sim &&\
-        ./install.sh && cd \$HOME &&\
-        source /home/user/shared_volume/ros2_ws/install/setup.bash &&\
-        /bin/bash"
+
+    if [[ -n "$GIT_TOKEN" ]] && [[ -n "$GIT_USER" ]]; then
+    CMD="export GIT_USER=$GIT_USER && export GIT_TOKEN=$GIT_TOKEN && $CMD"
+    fi
+
+    if [[ -n "$SUDO_PASSWORD" ]]; then
+        CMD="export SUDO_PASSWORD=$SUDO_PASSWORD && $CMD"
     fi
 
     echo "Running container ${CONTAINER_NAME}..."
