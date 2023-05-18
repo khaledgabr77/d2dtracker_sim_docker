@@ -162,6 +162,9 @@ RUN apt update &&  apt install -y ros-humble-rqt-tf-* \
 # 
 RUN pip3 install opencv-python
 RUN pip3 install ultralytics
+RUN apt install ros-humble-vision-msgs -y \
+	&& apt-get clean autoclean \
+	&& rm -rf /var/lib/apt/lists/{apt,dpkg,cache,log} /tmp/* /var/tmp/*
 
 # create and start as LOCAL_USER_ID
 COPY scripts/entrypoint.sh /usr/local/bin/entrypoint.sh

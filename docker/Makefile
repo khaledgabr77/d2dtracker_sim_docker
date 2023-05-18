@@ -1,6 +1,6 @@
-.PHONY: px4-dev-simulation-ubuntu22
+.PHONY: px4-dev-simulation-ubuntu22 px4-simulation-cuda11.7-ubuntu22
 
-all: px4-dev-simulation-ubuntu22
+all: px4-dev-simulation-ubuntu22 px4-simulation-cuda11.7-ubuntu22
 
 
 px4-dev-simulation-ubuntu22:
