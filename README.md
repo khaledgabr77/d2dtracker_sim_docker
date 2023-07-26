@@ -20,7 +20,7 @@ You can follow [this link](https://docs.docker.com/engine/install/ubuntu/) for d
 * **NOTE** If you want to build an image with `CUDA` run
     ```bash
     cd d2dtracker_sim_docker/docker
-    make px4-simulation-cuda11.7-ubuntu22
+    make px4-simulation-cuda11.7.1-ubuntu22
     ```
 
 This builds a Docker image that has the required PX4-Autopilot source code and the required dependencies, ROS 2 Humble Desktop, and `ros2_ws` that contains `d2dtracker_sim` and other ROS 2 packages.

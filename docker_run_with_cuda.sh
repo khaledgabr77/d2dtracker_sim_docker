@@ -22,7 +22,7 @@
 
 
 # DOCKER_REPO="mzahana/px4-dev-ros2-humble:latest"
-DOCKER_REPO="mzahana/px4-simulation-cuda11.7-ubuntu22"
+DOCKER_REPO="mzahana/px4-simulation-cuda11.7.1-ubuntu22"
 # DOCKER_REPO="osrf/ros:humble-desktop"
 CONTAINER_NAME="d2dtracker_cuda"
 WORKSPACE_DIR=~/${CONTAINER_NAME}_shared_volume

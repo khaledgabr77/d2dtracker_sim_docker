@@ -2,7 +2,7 @@
 # PX4 Gazebo garden development environment in Ubuntu 22.04 jammy
 #
 
-FROM nvidia/cuda:11.7.0-devel-ubuntu22.04
+FROM nvidia/cuda:11.7.1-devel-ubuntu22.04
 # FROM osrf/ros:humble-desktop-full
 LABEL maintainer="Mohamed Abdelkader <mohamedashraf123@gmail.com>"
 
